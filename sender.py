@@ -1,11 +1,4 @@
 # coding=UTF-8
-import sys
-import pickle
-import logging
-import requests
-import json
-import argparse
-import html5lib
 import os
 
 from selenium import webdriver
@@ -15,7 +8,6 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options
 from dotenv import load_dotenv
-from bs4 import BeautifulSoup
 from time import sleep
 from apscheduler.schedulers.blocking import BlockingScheduler
 
@@ -28,7 +20,7 @@ sched = BlockingScheduler()
 
 class Crawler():
     def __init__(self):
-        self.URL = 'https://discord.com/channels/874924817617387550/878307057407762512'
+        self.URL = 'https://discord.com/channels/358942292352040970/577555543049240596'
         self.email = os.getenv('email', default=None)
         self.passwd = os.getenv('passwd', default=None)
 
@@ -38,7 +30,7 @@ class Crawler():
         options.add_argument("--start-maximized")
         options.add_argument('--disable-gpu')
         options.add_argument('--log-level=3')
-        options.add_argument('--headless')
+        # options.add_argument('--headless')
         options.add_argument(
             "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36")
         self.driver = webdriver.Chrome(options=options)
@@ -53,26 +45,15 @@ class Crawler():
 
     def run(self):
         self.awake_driver()
-# @sched.scheduled_job('interval', minutes=2)
 
-        @sched.scheduled_job('interval', minutes=2)
+        @sched.scheduled_job('interval', minutes=20)
         def timed_job():
+            sleep(10)
             self.driver.find_element_by_xpath(
-                '/html/body/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div[2]/main/form/div[1]/div/div/div[1]/div/div[3]/div[2]').send_keys(';sell\n')
-            sleep(1)
-            self.driver.find_element_by_xpath(
-                '/html/body/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div[2]/main/form/div[1]/div/div/div[1]/div/div[3]/div[2]').send_keys(';h\n')
-            sleep(1)
-            self.driver.find_element_by_xpath(
-                '/html/body/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div[2]/main/form/div[1]/div/div/div[1]/div/div[3]/div[2]').send_keys(';f\n')
-            sleep(1)
-            self.driver.find_element_by_xpath(
-                '/html/body/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div[2]/main/form/div[1]/div/div/div[1]/div/div[3]/div[2]').send_keys(';up p 5\n')
-            sleep(1)
-            self.driver.find_element_by_xpath(
-                '/html/body/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div[2]/main/form/div[1]/div/div/div[1]/div/div[3]/div[2]').send_keys(';up b 5\n')
+                '/html/body/div[1]/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div[2]/main/form/div[1]/div/div/div[1]/div/div[1]/div[2]').send_keys('/warp Vincent550102 ◆抽45萬(2/3)或120萬綠寶石(1/3)◆【點我一抽】機率激高！再不抽要被別人連抽光了！\n')
 
         sched.start()
+        # timed_job()
         self.driver.close()
         self.driver.quit()
 
